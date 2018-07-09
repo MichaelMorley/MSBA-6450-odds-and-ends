@@ -1,0 +1,27 @@
+
+#Bootstrap examples
+#Suppose these are the prices in millions of dollars
+#for 10 homes in the Summit-Hill area.  
+#10,15,16,18,20,25,18,15,16,21
+x<- c(10,15,16,18,20,25,18,15,16,21)
+mean(x)
+sd(x)
+sd(x)/10^.5#Here is the standard error 
+hist(x)
+#Take 100 samples with replacement from our 
+#sample x of same size n=10.
+set.seed(10165)
+a=replicate(100, mean(sample(x, 10, replace = T)))
+
+mean(a)
+sd(a)
+hist(a)
+
+#Let's try 10,000 samples :- ) 
+
+set.seed(10165)
+a=replicate(10000, mean(sample(x, 10, replace = T)))
+
+mean(a)
+sd(a)
+hist(a)
