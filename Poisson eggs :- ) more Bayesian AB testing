@@ -1,0 +1,22 @@
+
+library(tidyverse)
+library(bayesAB)
+plotPoisson(2) 
+plotPoisson(5)
+
+diet_eggs<- c(6,4,2,3,4,3,0,4,0,6,3)
+normal_eggs<- c(4,2,1,1,2,1,2,1,3,2,1)
+mean(diet_eggs)
+mean(normal_eggs)
+AB1 <- bayesTest(diet_eggs, normal_eggs, priors = c('shape' = 25, 'rate' = 2), distribution = 'poisson')
+t.test(diet_eggs, normal_eggs)
+diet_eggs_boot<- sample(diet_eggs, 10000, replace=T)
+normal_eggs_ boot<- sample(normal_eggs, 10000, replace=T)
+
+summary(AB1)
+plot(AB1)
+AB2 <- bayesTest(diet_eggs_boot, normal_eggs_boot, priors = c('shape' = 25, 'rate' = 2), distribution = 'poisson')
+t.test(diet_eggs_boot, normal_eggs_boot)
+summary(AB2)
+plot(AB2)
+
