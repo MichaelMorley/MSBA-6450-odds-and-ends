@@ -1,0 +1,59 @@
+
+library(bayesAB)
+#Farmer Mike has a huge number of cows.  Earlier this year he ran an experiment.
+#He gave 10 cows a special diet which he heard could make them produce more milk.
+#He recorded the liters of milk from those "diet" cows and from 15 "normal" cows,
+#during one month.  Let's do some Baysian AB texting.
+
+diet_milk <- c(651, 679, 374, 601, 401, 609, 767, 709, 704, 679)
+normal_milk <- c(798, 1139, 529, 609, 553, 743, 151, 544, 488, 555, 257, 692, 678, 675, 538)
+
+mean(diet_milk)#Put in for "mu"
+sd(diet_milk)#Put n for "alpha"
+mean(normal_milk)#Put in for "lambda"
+sd(normal_milk)#Put in for "beta"
+t.test(diet_milk,normal_milk) #Just courious *LOL*
+
+
+
+
+AB1 <- bayesTest(diet_milk, normal_milk,
+                 priors =  c("mu" = 625,"lambda"=595, "alpha" = 123, "beta" = 214), n_samples = 1e5,
+                 distribution = "normal")
+
+summary(AB1)
+
+
+plot(AB1)
+
+#
+
+#
+
+#
+
+#
+
+
+A_sample<-sample(diet_milk,250, replace = T)#Try 25, then 250, then 2500 please :- )
+B_sample<-sample(normal_milk, 250, replace = T)
+mean(A_sample)#Put in for "mu"
+sd(A_sample)#Put in for "alpha"
+hist(A_sample)
+mean(B_sample)#Put in for "lambda"
+sd(B_sample)#Put in for "beta"
+hist(B_sample)
+t.test(A_sample,B_sample) #Just courious *LOL*
+
+
+
+
+AB2 <- bayesTest(A_sample, B_sample,
+                 priors =  c("mu" = 625,"lambda"=595, "alpha" = 123, "beta" = 214), n_samples = 1e5,
+                 distribution = "normal")
+
+summary(AB2)
+
+
+plot(AB2)
+
