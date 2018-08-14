@@ -1,0 +1,36 @@
+
+Here s one using the "boot" package
+#The Standard Normal Bootstrap Confidence Interval
+#Suppose that theta.hat is an estimator of theta, and assume the standard error of 
+# the estimator is se(theta.hat).  If theta.hat is the sample mean and the sample size
+#is big enough - we can invoke the Central Limit Theorem.
+#Then Z = (theta.hat - E(theta.hat))/se(theta.hat)
+#Hence, if theta.hat is an unbiased estimatoe for theta then an approximate
+#100(1 - alpha)% confidence interval for theta.
+#theta.hat +/- z(alpha/2)se(theta.hat)
+library(boot)#To get boot and boot.ci
+help(patch)#Let's check out the data in "patch" in the bootstrap package.
+data(patch, package = "bootstrap")
+data
+theta.boot<- function(dat,ind){
+  #Create a function to compute the statistic.
+  y<- dat[ind,1]
+  z<- dat[ind,2]
+  mean(y)/mean(z)
+  
+}
+#We will run a bootstrap and compute the C.I. for bioequivalence ratio.
+y<- patch$y
+z<- patch$z
+dat<- cbind(y,z)
+dat
+boot.obj<- boot(dat, statistic = theta.boot, R= 2000)
+print(boot.obj)
+
+print(boot.ci(boot.obj, type =  c("basic", "norm", "perc", "bca")))#BCa is bias correct and accelerated.
+#BCa is considered the best bootstaped C.I.  the "acceleration" has to do with the 
+#skewness of the distribution and it is dealt with by a Jankknife proceedure inside the bootstrap itself!
+#COOL!
+
+
+
